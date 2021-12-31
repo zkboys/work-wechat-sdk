@@ -1,5 +1,5 @@
 const assert = require('assert');
-const WorkWechat = require('../lib/index');
+const WorkWechat = require('../lib/index.js');
 
 const corpId = 'wx8918a4299cc1b440';
 const agentId = 1000029;
