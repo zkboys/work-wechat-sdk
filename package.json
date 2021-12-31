@@ -1,0 +1,27 @@
+{
+  "name": "work-wechat-sdk",
+  "version": "1.0.0",
+  "description": "企业微信nodejs版本sdk",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkboys/work-wechat-sdk.git"
+  },
+  "keywords": [
+    "work-wechat",
+    "sdk"
+  ],
+  "author": "zkboys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zkboys/work-wechat-sdk/issues"
+  },
+  "homepage": "https://github.com/zkboys/work-wechat-sdk#readme",
+  "devDependencies": {
+    "mocha": "^9.1.3"
+  }
+}
