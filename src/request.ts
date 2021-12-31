@@ -1,10 +1,17 @@
 import * as https from 'https';
+import { RequestOptions } from 'https';
+
+export interface Options extends RequestOptions {
+    url: string;
+    data?: any;
+    params?: any;
+}
 
 function query(obj: any) {
     return Object.entries(obj).map(([ key, value ]) => `${key}=${value}`).join('&');
 }
 
-export default async function request(options: any) {
+export default async function request(options: Options) {
     const { method = 'GET', url, data, params, ...others } = options;
 
     if (url.includes('?')) throw Error('url can not has query string, you should use params options');

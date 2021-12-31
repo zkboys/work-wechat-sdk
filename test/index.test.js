@@ -20,7 +20,6 @@ describe('work wechat', function() {
     });
     it('all users should OK', async () => {
         const res = await workWechat.getUsers();
-        console.log(res);
         assert(Array.isArray(res));
     });
     it('department users should OK', async () => {

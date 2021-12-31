@@ -1,5 +1,40 @@
 import AccessToken from './AccessToken';
-import request from './request';
+import request, { Options as RequestOptions } from './request';
+
+export interface User {
+    userid: string;
+    name: string;
+    department: number[];
+    order: number[];
+    position: string;
+    mobile: string;
+
+    gender: [ '1', '2' ],
+    email: string;
+    is_leader_in_dept: number[];
+    direct_leader: string[];
+    avatar: string;
+    thumb_avatar: string;
+    telephone: string;
+    alias: string;
+    status: number;
+    address: string;
+    hide_mobile: number;
+    english_name: string;
+    open_userid: string;
+    main_department: number;
+    qr_code: string;
+    external_position: string;
+}
+
+export interface Department {
+    id: number;
+    name: string;
+    name_en: string;
+    department_leader: string[];
+    parentid: number;
+    order: number;
+}
 
 /**
  * 企业微信sdk
@@ -38,7 +73,7 @@ export default class WorkWechat {
      * @param {{url, params, data}} options 请求参数
      * @param {boolean} [reTry] 重试
      */
-    async requestWithAccessToken(options: any, reTry?: boolean) {
+    async requestWithAccessToken(options: RequestOptions, reTry?: boolean) {
         const { params = {} } = options;
         params.access_token = await this.getAccessToken();
 
@@ -84,20 +119,19 @@ export default class WorkWechat {
 
     /**
      * 获取当前应用下所有用户详细信息
-     * @return {Promise<*[]>}
      */
-    async getUsers() {
+    async getUsers(): Promise<User[]> {
         const departments = await this.getDepartments();
-        const topDepartments = departments.filter((item: any) => !departments.some((it: any) => it.id === item.parentid));
-        const promises = topDepartments.map((dept: any) => {
+        const topDepartments = departments.filter((item) => !departments.some((it) => it.id === item.parentid));
+        const promises = topDepartments.map((dept: Department) => {
             const { id } = dept;
             return this.getDepartmentUsers(id, true, true);
         });
 
         const res = await Promise.all(promises);
         // 去重
-        return res.flat().reduce((prev, user) => {
-            if (!prev.some((item: any) => item.userid === user.userid)) prev.push(user);
+        return res.flat().reduce((prev: User[], user: User) => {
+            if (!prev.some((item: User) => item.userid === user.userid)) prev.push(user);
 
             return prev;
         }, []);
@@ -119,9 +153,8 @@ export default class WorkWechat {
      * @param {number} id 部门id
      * @param {boolean} [fetchChild=false] 是否递归获取子部门
      * @param {boolean} [detailed=false] 是否是完整信息
-     * @return {Promise<*[{}]>}
      */
-    async getDepartmentUsers(id: number, fetchChild = false, detailed = false) {
+    async getDepartmentUsers(id: number, fetchChild = false, detailed = false): Promise<User[]> {
         const url = `https://qyapi.weixin.qq.com/cgi-bin/user/${detailed ? '' : 'simple'}list`;
         const params = {
             department_id: id,
@@ -134,9 +167,8 @@ export default class WorkWechat {
 
     /**
      * 获取所有的部门
-     * @return {Promise<*[]>}
      */
-    async getDepartments() {
+    async getDepartments(): Promise<Department[]> {
         const url = 'https://qyapi.weixin.qq.com/cgi-bin/department/list';
         const res = await this.requestWithAccessToken({ url });
         return res.department;
@@ -145,9 +177,8 @@ export default class WorkWechat {
     /**
      * 获取部门及其下的子部门
      * @param {number} id 部门id
-     * @return {Promise<unknown>}
      */
-    async getDepartment(id: number) {
+    async getDepartment(id: number): Promise<Department> {
         const url = 'https://qyapi.weixin.qq.com/cgi-bin/department/list';
         const params = { id };
         const res = await this.requestWithAccessToken({ url, params });

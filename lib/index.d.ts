@@ -1,3 +1,36 @@
+import { Options as RequestOptions } from './request';
+export interface User {
+    userid: string;
+    name: string;
+    department: number[];
+    order: number[];
+    position: string;
+    mobile: string;
+    gender: ['1', '2'];
+    email: string;
+    is_leader_in_dept: number[];
+    direct_leader: string[];
+    avatar: string;
+    thumb_avatar: string;
+    telephone: string;
+    alias: string;
+    status: number;
+    address: string;
+    hide_mobile: number;
+    english_name: string;
+    open_userid: string;
+    main_department: number;
+    qr_code: string;
+    external_position: string;
+}
+export interface Department {
+    id: number;
+    name: string;
+    name_en: string;
+    department_leader: string[];
+    parentid: number;
+    order: number;
+}
 /**
  * 企业微信sdk
  */
@@ -18,7 +51,7 @@ export default class WorkWechat {
      * @param {{url, params, data}} options 请求参数
      * @param {boolean} [reTry] 重试
      */
-    requestWithAccessToken(options: any, reTry?: boolean): Promise<any>;
+    requestWithAccessToken(options: RequestOptions, reTry?: boolean): Promise<any>;
     /**
      * 获取accessToken
      * @return Promise<string>
@@ -26,9 +59,8 @@ export default class WorkWechat {
     getAccessToken(): Promise<string>;
     /**
      * 获取当前应用下所有用户详细信息
-     * @return {Promise<*[]>}
      */
-    getUsers(): Promise<any>;
+    getUsers(): Promise<User[]>;
     /**
      * 获取用户详细信息
      * @param {string} userId 企业微信中的用户id
@@ -39,18 +71,15 @@ export default class WorkWechat {
      * @param {number} id 部门id
      * @param {boolean} [fetchChild=false] 是否递归获取子部门
      * @param {boolean} [detailed=false] 是否是完整信息
-     * @return {Promise<*[{}]>}
      */
-    getDepartmentUsers(id: number, fetchChild?: boolean, detailed?: boolean): Promise<any>;
+    getDepartmentUsers(id: number, fetchChild?: boolean, detailed?: boolean): Promise<User[]>;
     /**
      * 获取所有的部门
-     * @return {Promise<*[]>}
      */
-    getDepartments(): Promise<any>;
+    getDepartments(): Promise<Department[]>;
     /**
      * 获取部门及其下的子部门
      * @param {number} id 部门id
-     * @return {Promise<unknown>}
      */
-    getDepartment(id: number): Promise<any>;
+    getDepartment(id: number): Promise<Department>;
 }
