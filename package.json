@@ -1,5 +1,5 @@
 {
-  "name": "work-wechat-sdk",
+  "name": "@zkboys/work-wechat-sdk",
   "version": "1.0.0",
   "description": "企业微信nodejs版本sdk",
   "main": "lib/index.js",
