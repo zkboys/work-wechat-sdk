@@ -1,4 +1,4 @@
-import { Options as RequestOptions } from './request';
+import { AxiosRequestConfig } from 'axios';
 export interface User {
     userid: string;
     name: string;
@@ -51,7 +51,7 @@ export default class WorkWechat {
      * @param {{url, params, data}} options 请求参数
      * @param {boolean} [reTry] 重试
      */
-    requestWithAccessToken(options: RequestOptions, reTry?: boolean): Promise<any>;
+    requestWithAccessToken(options: AxiosRequestConfig, reTry?: boolean): Promise<any>;
     /**
      * 获取accessToken
      */

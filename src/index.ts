@@ -1,5 +1,5 @@
 import AccessToken from './AccessToken';
-import request, { Options as RequestOptions } from './request';
+import axios, { AxiosRequestConfig } from 'axios';
 
 export interface User {
     userid: string;
@@ -73,28 +73,28 @@ export default class WorkWechat {
      * @param {{url, params, data}} options 请求参数
      * @param {boolean} [reTry] 重试
      */
-    async requestWithAccessToken(options: RequestOptions, reTry?: boolean) {
+    async requestWithAccessToken(options: AxiosRequestConfig, reTry?: boolean) {
         const { params = {} } = options;
         params.access_token = await this.getAccessToken();
 
-        let res: any = await request({ ...options, params });
+        let { data } = await axios({ ...options, params });
 
         // 已经是重试了，直接返回结果
-        if (reTry) return res;
+        if (reTry) return data;
 
         // access_token有问题，重新发起一次请求
         if ([
             40014, // 不合法的access_token
             41001, // 缺少access_token参数
             42001, // access_token已过期
-        ].includes(res.errorcode)) {
+        ].includes(data.errorcode)) {
             this.accessToken = null;
-            res = this.requestWithAccessToken({ ...options, params }, true);
+            data = this.requestWithAccessToken({ ...options, params }, true);
         }
 
-        if (res.errcode !== 0) throw Error(`${res.errcode} ${res.errmsg}`);
+        if (data.errcode !== 0) throw Error(`${data.errcode} ${data.errmsg}`);
 
-        return res;
+        return data;
     }
 
     /**
@@ -109,9 +109,9 @@ export default class WorkWechat {
         // 过期了，重新获取
         const url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken';
         const params = { corpid: corpId, corpsecret: corpSecret };
-        const result: any = await request({ url, params });
+        const { data } = await axios({ url, params });
 
-        this.accessToken = new AccessToken(result.access_token, result.expires_in);
+        this.accessToken = new AccessToken(data.access_token, data.expires_in);
 
         return this.accessToken.token;
     }
