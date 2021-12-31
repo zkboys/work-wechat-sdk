@@ -54,7 +54,6 @@ export default class WorkWechat {
     requestWithAccessToken(options: RequestOptions, reTry?: boolean): Promise<any>;
     /**
      * 获取accessToken
-     * @return Promise<string>
      */
     getAccessToken(): Promise<string>;
     /**
@@ -65,7 +64,7 @@ export default class WorkWechat {
      * 获取用户详细信息
      * @param {string} userId 企业微信中的用户id
      */
-    getUser(userId: string): Promise<any>;
+    getUser(userId: string): Promise<User>;
     /**
      * 获取本部门成员信息
      * @param {number} id 部门id

@@ -99,9 +99,8 @@ export default class WorkWechat {
 
     /**
      * 获取accessToken
-     * @return Promise<string>
      */
-    async getAccessToken() {
+    async getAccessToken(): Promise<string> {
         const { corpId, corpSecret, accessToken } = this;
 
         // 没过期，直接使用
@@ -141,7 +140,7 @@ export default class WorkWechat {
      * 获取用户详细信息
      * @param {string} userId 企业微信中的用户id
      */
-    async getUser(userId: string) {
+    async getUser(userId: string): Promise<User> {
         const url = 'https://qyapi.weixin.qq.com/cgi-bin/user/get';
         const params = { userid: userId };
 
