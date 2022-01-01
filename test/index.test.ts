@@ -1,5 +1,6 @@
-const assert = require('assert');
-const WorkWechat = require('../lib/index.js').default;
+// @ts-ignore
+import assert from 'assert';
+import WorkWechat from '../src/index';
 
 const corpId = 'wx8918a4299cc1b440';
 const agentId = 1000029;

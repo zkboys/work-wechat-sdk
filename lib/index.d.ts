@@ -1,4 +1,31 @@
 import { AxiosRequestConfig } from 'axios';
+export interface ExtAttr {
+    attrs: Attr[];
+}
+export interface Attr {
+    type: number;
+    name: string;
+    text: {
+        value: string;
+    };
+    web: {
+        url: string;
+        title: string;
+    };
+    miniprogram: {
+        appid: string;
+        pagepath: string;
+        title: string;
+    };
+}
+export interface ExternalProfile {
+    external_corp_name: string;
+    wechat_channels: {
+        nickname: string;
+        status: number;
+    };
+    external_attr: Attr[];
+}
 export interface User {
     userid: string;
     name: string;
@@ -22,6 +49,8 @@ export interface User {
     main_department: number;
     qr_code: string;
     external_position: string;
+    extattr: ExtAttr;
+    external_profile: ExternalProfile;
 }
 export interface Department {
     id: number;

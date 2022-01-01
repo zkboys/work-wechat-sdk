@@ -9,3 +9,5 @@ logs/
 .vscode
 *.swp
 !.autod.conf.js
+mochawesome-report
+.nyc_output
