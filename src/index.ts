@@ -87,7 +87,7 @@ export default class WorkWechat {
             throw new Error('WorkWechat  requires \'corpId\', \'corpSecret\' and  \'agentId\'');
         }
 
-        // 单利模式
+        // 单例模式
         const key = `${corpId}&&${agentId}&&${corpSecret}`;
         // @ts-ignore
         if (WorkWechat[key]) return WorkWechat[key];
